@@ -96,6 +96,8 @@ public class Functions {
             return MyMath.cToF(x);
             case "fToC":
             return MyMath.fToC(x);
+            case "pythag":
+            return MyMath.pythag(x,y);
         }
         return y;
     }

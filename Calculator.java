@@ -483,7 +483,7 @@ public class Calculator extends JFrame implements ActionListener{
             func="times";
             x=Functions.getNum();
             z=Functions.solve(func,x,x);
-            Functions.print(z);
+            //             Functions.print(z);
             setText(z);
         }
         //      else if (e.getSource()==parenOpen){
@@ -584,6 +584,11 @@ public class Calculator extends JFrame implements ActionListener{
             x=Functions.getNum();
             func="fToC";
             setText(Functions.solve(func, x , 0));
+        }
+        else if (e.getSource() == pythag)
+        {
+            x=Functions.getNum();
+            func="pythag";
         }
     }
 
