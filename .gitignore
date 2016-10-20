@@ -1,0 +1,7 @@
+*.class
+*.ctxt
+*.html
+*.css
+karel/Ch3/docs
+karel/Ch2/docs
+*/docs
