@@ -24,7 +24,7 @@ public class Calculator extends JFrame implements ActionListener{
     private JButton mod, inverse,en,ep,randint,rand, pythag, sphereVol, cToF, fToC;
     private JPanel panel,panel2,panel3/*,panel4*/;
     static Boolean p;
-    private GridBagConstraints c = new GridBagConstraints();
+    private GridBagConstraints gridBag = new GridBagConstraints();
     //  private 
     private double x, y, z, M;
 
@@ -172,194 +172,194 @@ public class Calculator extends JFrame implements ActionListener{
         pythag = new JButton("a\u00B2 + b\u00B2");
     }
 
-    private void setColors()
+    private void setColors(Color foreground, Color background)
     {
-        one.setBackground(Color.red);
-        two.setBackground(Color.red);
-        three.setBackground(Color.red);
-        four.setBackground(Color.red);
-        five.setBackground(Color.red);
-        six.setBackground(Color.red);
-        seven.setBackground(Color.red);
-        eight.setBackground(Color.red);
-        nine.setBackground(Color.red);
-        zero.setBackground(Color.red);
-        plus.setBackground(Color.red);
-        minus.setBackground(Color.red);
-        times.setBackground(Color.red);
-        divide.setBackground(Color.red);
-        equals.setBackground(Color.red);
-        pi.setBackground(Color.red);
-        sqrt.setBackground(Color.red);
-        square.setBackground(Color.red);
-        percent.setBackground(Color.red);
-        factorial.setBackground(Color.red);
-        power.setBackground(Color.red);
-        decimal.setBackground(Color.red);
-        C.setBackground(Color.red);
-        MP.setBackground(Color.red);
-        MC.setBackground(Color.red);
-        MR.setBackground(Color.red);
-        MM.setBackground(Color.red);
-        neg.setBackground(Color.red);
-        panel.setBackground(Color.BLACK);
-        panel2.setBackground(Color.BLACK);
+        one.setBackground(foreground);
+        two.setBackground(foreground);
+        three.setBackground(foreground);
+        four.setBackground(foreground);
+        five.setBackground(foreground);
+        six.setBackground(foreground);
+        seven.setBackground(foreground);
+        eight.setBackground(foreground);
+        nine.setBackground(foreground);
+        zero.setBackground(foreground);
+        plus.setBackground(foreground);
+        minus.setBackground(foreground);
+        times.setBackground(foreground);
+        divide.setBackground(foreground);
+        equals.setBackground(foreground);
+        pi.setBackground(foreground);
+        sqrt.setBackground(foreground);
+        square.setBackground(foreground);
+        percent.setBackground(foreground);
+        factorial.setBackground(foreground);
+        power.setBackground(foreground);
+        decimal.setBackground(foreground);
+        C.setBackground(foreground);
+        MP.setBackground(foreground);
+        MC.setBackground(foreground);
+        MR.setBackground(foreground);
+        MM.setBackground(foreground);
+        neg.setBackground(foreground);
+        panel.setBackground(background);
+        panel2.setBackground(background);
     }
 
     private void setupPanels()
     {
         //Adds the buttons in a layout to the panel for the Number display
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 0;
-        panel2.add(TextAreaNumber, c);
+        gridBag.fill = GridBagConstraints.BOTH;
+        gridBag.gridx = 0;
+        gridBag.gridy = 0;
+        panel2.add(TextAreaNumber, gridBag);
         //Adds the buttons in a layout to the panel for the controls 
-        c.gridwidth = 1;
-        c.gridy=0;
-        c.gridx=0;
+        gridBag.gridwidth = 1;
+        gridBag.gridy=0;
+        gridBag.gridx=0;
         panel.add(MC);
-        c.gridy=0;
-        c.gridx=1;
+        gridBag.gridy=0;
+        gridBag.gridx=1;
         panel.add(MP);
-        c.gridx=2;
+        gridBag.gridx=2;
         panel.add(MM);
-        c.gridx=3;
+        gridBag.gridx=3;
         panel.add(MR);
 
-        c.gridy=1;
-        c.gridx=0;
-        panel.add(C,c);
-        c.gridx=1;
-        c.gridy=1;
-        panel.add(neg,c);
-        c.gridx=2;
-        panel.add(divide,c);
-        c.gridx=3;
-        panel.add(times,c);
-        c.gridx = 0;
-        c.gridy=2;
-        panel.add(one, c);
+        gridBag.gridy=1;
+        gridBag.gridx=0;
+        panel.add(C,gridBag);
+        gridBag.gridx=1;
+        gridBag.gridy=1;
+        panel.add(neg,gridBag);
+        gridBag.gridx=2;
+        panel.add(divide,gridBag);
+        gridBag.gridx=3;
+        panel.add(times,gridBag);
+        gridBag.gridx = 0;
+        gridBag.gridy=2;
+        panel.add(one, gridBag);
 
-        c.gridx = 1;
-        //c.gridy = 2;
-        panel.add(two, c);
+        gridBag.gridx = 1;
+        //gridBag.gridy = 2;
+        panel.add(two, gridBag);
 
-        c.gridx = 2;
-        //      c.gridy = 2;
-        panel.add(three, c);
+        gridBag.gridx = 2;
+        //      gridBag.gridy = 2;
+        panel.add(three, gridBag);
 
-        c.gridx = 3;
-        panel.add(plus, c);
+        gridBag.gridx = 3;
+        panel.add(plus, gridBag);
 
-        c.gridx = 0;
-        c.gridy = 3;
-        panel.add(four, c);
+        gridBag.gridx = 0;
+        gridBag.gridy = 3;
+        panel.add(four, gridBag);
 
-        c.gridx=1;
-        panel.add(five,c);
+        gridBag.gridx=1;
+        panel.add(five,gridBag);
 
-        c.gridx=2;
-        panel.add(six,c);
+        gridBag.gridx=2;
+        panel.add(six,gridBag);
 
-        c.gridx=3;
-        panel.add(minus,c);
+        gridBag.gridx=3;
+        panel.add(minus,gridBag);
 
-        c.gridy=4;
-        c.gridx=0;
-        panel.add(seven,c);
+        gridBag.gridy=4;
+        gridBag.gridx=0;
+        panel.add(seven,gridBag);
 
-        c.gridx=1;
-        panel.add(eight,c);
+        gridBag.gridx=1;
+        panel.add(eight,gridBag);
 
-        c.gridx=2;
-        panel.add(nine ,c);
+        gridBag.gridx=2;
+        panel.add(nine ,gridBag);
 
-        c.gridx=0;
-        c.gridy=5;
-        c.gridwidth=2;
-        panel.add(zero,c);
+        gridBag.gridx=0;
+        gridBag.gridy=5;
+        gridBag.gridwidth=2;
+        panel.add(zero,gridBag);
 
-        c.gridwidth=1;
+        gridBag.gridwidth=1;
 
-        c.gridx=2;
-        panel.add(decimal,c);
+        gridBag.gridx=2;
+        panel.add(decimal,gridBag);
 
-        c.gridheight=2;
-        c.gridx=3;
-        c.gridy=4;
-        panel.add(equals,c);
+        gridBag.gridheight=2;
+        gridBag.gridx=3;
+        gridBag.gridy=4;
+        panel.add(equals,gridBag);
 
-        c.gridheight=1;
-        c.gridx=0;
-        c.gridy=6;
-        panel.add(factorial,c);
+        gridBag.gridheight=1;
+        gridBag.gridx=0;
+        gridBag.gridy=6;
+        panel.add(factorial,gridBag);
 
-        c.gridx=1;
-        panel.add(pi,c);
+        gridBag.gridx=1;
+        panel.add(pi,gridBag);
 
-        c.gridx=2;
-        panel.add(square,c);
+        gridBag.gridx=2;
+        panel.add(square,gridBag);
 
-        c.gridx=3;
-        panel.add(power,c);
+        gridBag.gridx=3;
+        panel.add(power,gridBag);
 
-        c.gridy=7;
-        c.gridx=0;
-        c.gridwidth=2;
-        panel.add(sin,c);
-        c.gridx=2;
-        panel.add(csc,c);
-        c.gridy=8;
-        c.gridx=0;
-        panel.add(cos,c);
-        c.gridx=2;
-        panel.add(sec,c);
-        c.gridy=9;
-        c.gridx=0;
-        panel.add(tan,c);
-        c.gridx=2;
-        panel.add(cot,c);
-        c.gridy=10;
-        c.gridx=0;
-        panel.add(isin,c);
-        c.gridx=2;
-        panel.add(icsc,c);
-        c.gridy=11;
-        c.gridx=0;
-        panel.add(icos,c);
-        c.gridx=2;
-        panel.add(isec,c);
-        c.gridy=12;
-        c.gridx=0;
-        panel.add(itan,c);
-        c.gridx=2;
-        panel.add(icot,c);
-        c.gridwidth=1;
-        c.gridx=0;
-        c.gridy=13;
-        panel.add(mod,c);
-        c.gridx=1;
-        panel.add(sqrt,c);
-        c.gridx=2;
-        panel.add(inverse,c);
-        c.gridx=3;
-        panel.add(en,c);
-        c.gridy=14;
-        c.gridx=0;
-        panel.add(ep,c);
-        c.gridx=1;
-        panel.add(rand,c);
-        c.gridx=2;
-        c.gridwidth=2;
-        panel.add(randint,c);
-        c.gridy = 15;
-        c.gridx=0;
-        panel.add(cToF,c);
-        c.gridx=2;
-        panel.add(fToC,c);
-        c.gridy=16;
-        c.gridx=0;
-        panel.add(pythag);
+        gridBag.gridy=7;
+        gridBag.gridx=0;
+        gridBag.gridwidth=2;
+        panel.add(sin,gridBag);
+        gridBag.gridx=2;
+        panel.add(csc,gridBag);
+        gridBag.gridy=8;
+        gridBag.gridx=0;
+        panel.add(cos,gridBag);
+        gridBag.gridx=2;
+        panel.add(sec,gridBag);
+        gridBag.gridy=9;
+        gridBag.gridx=0;
+        panel.add(tan,gridBag);
+        gridBag.gridx=2;
+        panel.add(cot,gridBag);
+        gridBag.gridy=10;
+        gridBag.gridx=0;
+        panel.add(isin,gridBag);
+        gridBag.gridx=2;
+        panel.add(icsc,gridBag);
+        gridBag.gridy=11;
+        gridBag.gridx=0;
+        panel.add(icos,gridBag);
+        gridBag.gridx=2;
+        panel.add(isec,gridBag);
+        gridBag.gridy=12;
+        gridBag.gridx=0;
+        panel.add(itan,gridBag);
+        gridBag.gridx=2;
+        panel.add(icot,gridBag);
+        gridBag.gridwidth=1;
+        gridBag.gridx=0;
+        gridBag.gridy=13;
+        panel.add(mod,gridBag);
+        gridBag.gridx=1;
+        panel.add(sqrt,gridBag);
+        gridBag.gridx=2;
+        panel.add(inverse,gridBag);
+        gridBag.gridx=3;
+        panel.add(en,gridBag);
+        gridBag.gridy=14;
+        gridBag.gridx=0;
+        panel.add(ep,gridBag);
+        gridBag.gridx=1;
+        panel.add(rand,gridBag);
+        gridBag.gridx=2;
+        gridBag.gridwidth=2;
+        panel.add(randint,gridBag);
+        gridBag.gridy = 15;
+        gridBag.gridx=0;
+        panel.add(cToF,gridBag);
+        gridBag.gridx=2;
+        panel.add(fToC,gridBag);
+        gridBag.gridy=16;
+        gridBag.gridx=0;
+        panel.add(pythag,gridBag);
     }
 
     private void init(){
@@ -380,17 +380,17 @@ public class Calculator extends JFrame implements ActionListener{
         //Initializes Display
         initButtons();
         addActionListeners();
-        //setColors();
+        setColors(Color.red, Color.BLACK);
         setupPanels();
         //Combines the panels to one panel
-        c.gridwidth=1;
-        c.gridx=0;
-        c.gridy=1;
-        panel3.add(panel,c);
+        gridBag.gridwidth=1;
+        gridBag.gridx=0;
+        gridBag.gridy=1;
+        panel3.add(panel,gridBag);
 
-        c.gridx=0;
-        c.gridy=0;
-        panel3.add(panel2,c);
+        gridBag.gridx=0;
+        gridBag.gridy=0;
+        panel3.add(panel2,gridBag);
         //Adds that panel to the JFrame
         this.add(panel3);
     }
