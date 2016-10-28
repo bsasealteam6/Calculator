@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Functions {
-    public static Random random = new Random();
+    private static Random random = new Random();
     public static void print(String x){
         System.out.println(x);
     }
@@ -18,23 +18,28 @@ public class Functions {
         System.out.println(y);
     }
 
-    public static double pow(double x, double y){
+    private static double pow(double x, double y){
         return (double) Math.pow(x, y);
 
     }
 
-    public static double fact(double x){
-        double t=(double) 1;
-        if(x==t){
-            return (double)x;
+    private static double fact(double x){
+        int val = (int)x;
+        if(val==1 || val==0){
+            return 1;
         }
+        else if (val == -1)
+        {
+            return -1;
+        }
+        else if ( val<0)
+            return (double)(x*fact(x+1));
         else{
-            double y=(x*fact(x-t));
-            return (double)y;
+            return (double)(x*fact(x-1));
         }
     }
 
-    public static double sqrt(double x){
+    private static double sqrt(double x){
         return (double) Math.sqrt(x);
     }
 
@@ -45,14 +50,7 @@ public class Functions {
         return x;
     }
 
-    public static double getNum(){
-        //try {
-        double y=Functions.toDouble(Calculator.TextAreaNumber.getText());
-        Calculator.setText(0.0);
-        Calculator.TextAreaNumber.update (Calculator.TextAreaNumber.getGraphics());
-        return y;
-        //}
-    }
+    
 
     /**
      * Method solve
@@ -102,9 +100,5 @@ public class Functions {
         return y;
     }
 
-    public static void setText(String b){
-
-        Calculator.TextAreaNumber.setText(b);
-        Calculator.TextAreaNumber.update(Calculator.TextAreaNumber.getGraphics());
-    }
+    
 }

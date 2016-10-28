@@ -1,14 +1,24 @@
+//Listeners to listen for button presses
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//Actual GUI elements
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
+//Allows GUI to be colored
 import java.awt.Color;
+import javax.swing.plaf.ColorUIResource;
+
+//Allows me to control where button go
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
+//Utilities
+import java.util.LinkedList;
 
 @SuppressWarnings("unused")
 public class Calculator extends JFrame implements ActionListener{
@@ -16,14 +26,14 @@ public class Calculator extends JFrame implements ActionListener{
      * 
      */
     private static final long serialVersionUID = 1L;
-
-    public static JTextArea TextAreaNumber;
+    private UIManager manager = new UIManager();
+    public JTextArea TextAreaNumber;
     private JButton one, two, three, four, five, six, seven, eight, nine, zero, plus, minus, C,MC,MR;
     private JButton times, divide, equals, pi, sqrt, square, /*parenOpen, parenClose,*/ percent, factorial;
     private JButton power, decimal, MP,neg,MM,sin,tan,cos,csc,cot,sec,isin,icos,itan,icsc,isec,icot;
     private JButton mod, inverse,en,ep,randint,rand, pythag, sphereVol, cToF, fToC;
     private JPanel panel,panel2,panel3/*,panel4*/;
-    static Boolean p;
+    public Boolean clear;
     private GridBagConstraints gridBag = new GridBagConstraints();
     //  private 
     private double x, y, z, M;
@@ -39,26 +49,81 @@ public class Calculator extends JFrame implements ActionListener{
 
     }
 
-    public static void setText(Double b){
-        Functions.setText(Double.toString(b));
+    private void init(){
+
+        clear=false; //Used to identify if need to append or replace
+        M=0; //The variable that the M value is stored in
+
+        //Makes the panels that make up the structure of the GUI
+
+        panel=new JPanel(new GridBagLayout());
+        panel2=new JPanel();
+        panel3=new JPanel(new GridBagLayout());
+        //      panel4=new JPanel();
+        TextAreaNumber=new JTextArea(1,20);
+        setText(Integer.toString(0));
+        TextAreaNumber.setEditable(false);
+
+        //Initializes Display
+        setColors();
+        initButtons();
+        addActionListeners();
+        //setColors(Color.red, Color.BLACK);
+        setupPanels();
+
+        //Combines the panels to one panel
+        gridBag.gridwidth=1;
+        gridBag.gridx=0;
+        gridBag.gridy=1;
+        panel3.add(panel,gridBag);
+
+        gridBag.gridx=0;
+        gridBag.gridy=0;
+        panel3.add(panel2,gridBag);
+        //Adds that panel to the JFrame
+        this.add(panel3);
     }
 
-    public static void setText(String b){
-        Functions.setText((b));
+    private void setColors()
+    {
+        LinkedList<Object> gradient=new LinkedList<Object>();
+        gradient.add(0.3);  
+        gradient.add(0.3); 
+        //First colour : R=2,G=208,B=206  
+        gradient.add(new ColorUIResource(2,208,206));  
+
+        //Second colour : R=136,G=255,B=254  
+        gradient.add(new ColorUIResource(136,255,254));  
+
+        //Third colour : R=0,G=142,B=140  
+        gradient.add(new ColorUIResource(0,142,140));  
+        //******************************************************  
+
+        //Set Button.gradient key with new value  
+        manager.put("Button.gradient",gradient);  
+
     }
 
-    public static double getNum(){
-        return Functions.getNum();
+    public void setText(Double b){
+        setText(Double.toString(b));
     }
 
-    public static void append(int we){
+    public double getNum(){
+        //try {
+        double y=Functions.toDouble(TextAreaNumber.getText());
+        setText(0.0);
+        TextAreaNumber.update (TextAreaNumber.getGraphics());
+        return y;
+        //}
+    }
 
-        if(Double.parseDouble(TextAreaNumber.getText())==0||p){
-            Functions.setText(Integer.toString(we));
-            p=false;
+    public void append(int toAppend){
+        if(Double.parseDouble(TextAreaNumber.getText())==0||clear){
+            setText(Integer.toString(toAppend));
+            clear=false;
         }
         else{
-            TextAreaNumber.append(Integer.toString(we));
+            TextAreaNumber.append(Integer.toString(toAppend));
         }
     }
 
@@ -362,43 +427,22 @@ public class Calculator extends JFrame implements ActionListener{
         panel.add(pythag,gridBag);
     }
 
-    private void init(){
+    public void setText(String b){
 
-        p=false; //Used to identify if need to append or replace
-        M=0; //The variable that the M value is stored in
+        TextAreaNumber.setText(b);
+        TextAreaNumber.update(TextAreaNumber.getGraphics());
+    }
 
-        //Makes the panels that make up the structure of the GUI
+    public void setText(int b){
 
-        panel=new JPanel(new GridBagLayout());
-        panel2=new JPanel();
-        panel3=new JPanel(new GridBagLayout());
-        //      panel4=new JPanel();
-        TextAreaNumber=new JTextArea(1,20);
-        Functions.setText(Integer.toString(0));
-        TextAreaNumber.setEditable(false);
-
-        //Initializes Display
-        initButtons();
-        addActionListeners();
-        setColors(Color.red, Color.BLACK);
-        setupPanels();
-        //Combines the panels to one panel
-        gridBag.gridwidth=1;
-        gridBag.gridx=0;
-        gridBag.gridy=1;
-        panel3.add(panel,gridBag);
-
-        gridBag.gridx=0;
-        gridBag.gridy=0;
-        panel3.add(panel2,gridBag);
-        //Adds that panel to the JFrame
-        this.add(panel3);
+        TextAreaNumber.setText(Integer.toString(b));
+        TextAreaNumber.update(TextAreaNumber.getGraphics());
     }
 
     @Override
     //  Determines what button is pushed
     public void actionPerformed(ActionEvent e){
-        if (Calculator.TextAreaNumber.getText().contains("i")){
+        if (TextAreaNumber.getText().contains("i")){
             clearText();
         }
 
@@ -433,30 +477,30 @@ public class Calculator extends JFrame implements ActionListener{
             append(0);
         }
         else if (e.getSource()==plus){
-            x=Functions.getNum();
+            x=getNum();
 
             func="plus";
         }
         else if (e.getSource()==minus){
-            x=Functions.getNum();
+            x=getNum();
             func="minus";
         }
         else if (e.getSource()==times){
-            x=Functions.getNum();
+            x=getNum();
             func="times";
         }
         else if (e.getSource()==divide){
-            x=Functions.getNum(); 
+            x=getNum(); 
             func="divide";
         }
         else if (e.getSource()==equals){
-            y=Functions.getNum();
+            y=getNum();
             setText(Functions.solve(func,x,y));
             Functions.print(Functions.solve(func,x,y));
-            p=true;
+            clear=true;
         }
         else if (e.getSource()==pi){
-            x=Functions.getNum();
+            x=getNum();
             if (x==0){
                 setText(Math.PI);
             }
@@ -466,7 +510,7 @@ public class Calculator extends JFrame implements ActionListener{
         }
         else if (e.getSource()==sqrt){
             func="sqrt";
-            x=Functions.getNum();
+            x=getNum();
             if (x < 0){
                 setText(("i" + String.valueOf(Functions.solve(func,-x,x))));
                 //Functions.print("i" + String.valueOf(Functions.solve(func,-x,x)));
@@ -481,7 +525,7 @@ public class Calculator extends JFrame implements ActionListener{
         }
         else if (e.getSource()==square){
             func="times";
-            x=Functions.getNum();
+            x=getNum();
             z=Functions.solve(func,x,x);
             //             Functions.print(z);
             setText(z);
@@ -496,7 +540,7 @@ public class Calculator extends JFrame implements ActionListener{
             setText(getNum()/100);
         }
         else if (e.getSource()==factorial){
-            x=Functions.getNum();
+            x=getNum();
             func="fact";
             z=Functions.solve(func,x,x);
             setText(z);
@@ -550,14 +594,14 @@ public class Calculator extends JFrame implements ActionListener{
             setText(Functions.solve("sec", getNum(), 0));
         }
         else if (e.getSource()==mod){
-            x=Functions.getNum();
+            x=getNum();
             func="mod";
         }
         else if (e.getSource()==inverse){
             setText(Functions.solve("pow", getNum(), -1));
         }
         else if (e.getSource()==en){
-            x=Functions.getNum();
+            x=getNum();
             if (x==0){
                 setText(Math.E);
             }
@@ -566,7 +610,7 @@ public class Calculator extends JFrame implements ActionListener{
             }
         }
         else if (e.getSource()==ep){
-            x=Functions.getNum();
+            x=getNum();
             setText(Functions.solve("pow", Math.E, x));
         }
         else if (e.getSource()==rand){
@@ -576,29 +620,24 @@ public class Calculator extends JFrame implements ActionListener{
             setText(Functions.solve("randint", 0, 0));
         }
         else if (e.getSource()==cToF){
-            x=Functions.getNum();
+            x=getNum();
             func="cToF";
             setText(Functions.solve(func, x , 0));
         }
         else if (e.getSource()==fToC){
-            x=Functions.getNum();
+            x=getNum();
             func="fToC";
             setText(Functions.solve(func, x , 0));
         }
         else if (e.getSource() == pythag)
         {
-            x=Functions.getNum();
+            x=getNum();
             func="pythag";
         }
     }
 
-    private void setText(int i) {
-        // TODO Auto-generated method stub
-        Functions.setText(Integer.toString(i));
-    }
-
     private void clearText() {
         // TODO Auto-generated method stub
-        Functions.setText("0");
+        setText("0");
     }
 }

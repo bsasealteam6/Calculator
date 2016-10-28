@@ -16,10 +16,4 @@ public class MyMath
     {
         return Math.hypot(a,b);
     }
-    public static void quadratic(double a, double b, double c)
-    {
-        double x1 = (-1 * b + Math.sqrt(Math.pow(b,2)-4*a*c))/(2*a);
-        double x2 = (-1 * b - Math.sqrt(Math.pow(b,2)-4*a*c))/(2*a);
-        System.out.println(x1 + " and " + x2);
-    }
 }

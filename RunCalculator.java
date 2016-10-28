@@ -10,7 +10,6 @@ public class RunCalculator {
 
         newCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newCalculator.setResizable(false);
-
     }//End main
 
 }//End class
