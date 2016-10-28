@@ -184,7 +184,7 @@ public class Calculator extends JFrame implements ActionListener{
 
     private void initButtons()
     {
-        neg=new JButton("±");
+        neg=new JButton("ï¿½");
         MP=new JButton("M+");
         MC=new JButton("MC");
         MM=new JButton("M-");
