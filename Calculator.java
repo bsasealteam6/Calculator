@@ -26,17 +26,17 @@ public class Calculator extends JFrame implements ActionListener{
      * 
      */
     private static final long serialVersionUID = 1L;
-    private UIManager manager = new UIManager();
-    public JTextArea TextAreaNumber;
-    private JButton one, two, three, four, five, six, seven, eight, nine, zero, plus, minus, C,MC,MR;
+//    private UIManager manager = new UIManager();
+    public JTextArea textAreaNumber;
+    private JButton one, two, three, four, five, six, seven, eight, nine, zero, plus, minus, clearNum,clearMemory,recallMemory;
     private JButton times, divide, equals, pi, sqrt, square, /*parenOpen, parenClose,*/ percent, factorial;
-    private JButton power, decimal, MP,neg,MM,sin,tan,cos,csc,cot,sec,isin,icos,itan,icsc,isec,icot;
-    private JButton mod, inverse,en,ep,randint,rand, pythag, sphereVol, cToF, fToC;
+    private JButton power, decimal, MP,neg,subtractMemory,sin,tan,cos,csc,cot,sec,iSin,iCos,iTan,iCsc,iSec,iCot;
+    private JButton mod, inverse,en,ep,randInt,rand, pythag, sphereVol, cToF, fToC;
     private JPanel panel,panel2,panel3/*,panel4*/;
     public Boolean clear;
     private GridBagConstraints gridBag = new GridBagConstraints();
     //  private 
-    private double x, y, z, M;
+    private double myNum1, myNum2, myAnswer, myNumMemory;
 
     String func;
     Calculator(){
@@ -52,7 +52,7 @@ public class Calculator extends JFrame implements ActionListener{
     private void init(){
 
         clear=false; //Used to identify if need to append or replace
-        M=0; //The variable that the M value is stored in
+        myNumMemory=0; //The variable that the M value is stored in
 
         //Makes the panels that make up the structure of the GUI
 
@@ -60,12 +60,12 @@ public class Calculator extends JFrame implements ActionListener{
         panel2=new JPanel();
         panel3=new JPanel(new GridBagLayout());
         //      panel4=new JPanel();
-        TextAreaNumber=new JTextArea(1,20);
+        textAreaNumber=new JTextArea(1,20);
         setText(Integer.toString(0));
-        TextAreaNumber.setEditable(false);
+        textAreaNumber.setEditable(false);
 
         //Initializes Display
-        setColors();
+        //setColors(Color.black);
         initButtons();
         addActionListeners();
         //setColors(Color.red, Color.BLACK);
@@ -83,24 +83,26 @@ public class Calculator extends JFrame implements ActionListener{
         //Adds that panel to the JFrame
         this.add(panel3);
     }
-
-    private void setColors()
+ 
+    private void setColors(Color background)
     {
         LinkedList<Object> gradient=new LinkedList<Object>();
         gradient.add(0.3);  
         gradient.add(0.3); 
-        //First colour : R=2,G=208,B=206  
-        gradient.add(new ColorUIResource(2,208,206));  
+        //First color : R=2,G=208,B=206  
+        gradient.add(new ColorUIResource(150,0,0));  
 
-        //Second colour : R=136,G=255,B=254  
-        gradient.add(new ColorUIResource(136,255,254));  
+        //Second color : R=136,G=255,B=254  
+        gradient.add(new ColorUIResource(175,0,0));  
 
-        //Third colour : R=0,G=142,B=140  
-        gradient.add(new ColorUIResource(0,142,140));  
+        //Third color : R=0,G=142,B=140  
+        gradient.add(new ColorUIResource(100,0,0));  
         //******************************************************  
-
+        panel.setBackground(background);
+        panel2.setBackground(background);
+        this.setBackground(background);;
         //Set Button.gradient key with new value  
-        manager.put("Button.gradient",gradient);  
+        UIManager.put("Button.gradient",gradient);  
 
     }
 
@@ -110,20 +112,20 @@ public class Calculator extends JFrame implements ActionListener{
 
     public double getNum(){
         //try {
-        double y=Functions.toDouble(TextAreaNumber.getText());
+        double y=Functions.toDouble(textAreaNumber.getText());
         setText(0.0);
-        TextAreaNumber.update (TextAreaNumber.getGraphics());
+        textAreaNumber.update (textAreaNumber.getGraphics());
         return y;
         //}
     }
 
     public void append(int toAppend){
-        if(Double.parseDouble(TextAreaNumber.getText())==0||clear){
+        if(Double.parseDouble(textAreaNumber.getText())==0||clear){
             setText(Integer.toString(toAppend));
             clear=false;
         }
         else{
-            TextAreaNumber.append(Integer.toString(toAppend));
+            textAreaNumber.append(Integer.toString(toAppend));
         }
     }
 
@@ -153,11 +155,11 @@ public class Calculator extends JFrame implements ActionListener{
         factorial.addActionListener(this);
         power.addActionListener(this);
         decimal.addActionListener(this);
-        C.addActionListener(this);
+        clearNum.addActionListener(this);
         MP.addActionListener(this);
-        MC.addActionListener(this);
-        MR.addActionListener(this);
-        MM.addActionListener(this);
+        clearMemory.addActionListener(this);
+        recallMemory.addActionListener(this);
+        subtractMemory.addActionListener(this);
         neg.addActionListener(this);
         sin.addActionListener(this);
         cos.addActionListener(this);
@@ -165,18 +167,18 @@ public class Calculator extends JFrame implements ActionListener{
         csc.addActionListener(this);
         sec.addActionListener(this);
         cot.addActionListener(this);
-        isin.addActionListener(this);
-        icos.addActionListener(this);
-        itan.addActionListener(this);
-        icsc.addActionListener(this);
-        isec.addActionListener(this);
-        icot.addActionListener(this);
+        iSin.addActionListener(this);
+        iCos.addActionListener(this);
+        iTan.addActionListener(this);
+        iCsc.addActionListener(this);
+        iSec.addActionListener(this);
+        iCot.addActionListener(this);
         mod.addActionListener(this);
         inverse.addActionListener(this);
         en.addActionListener(this);
         ep.addActionListener(this);
         rand.addActionListener(this);
-        randint.addActionListener(this);
+        randInt.addActionListener(this);
         fToC.addActionListener(this);
         cToF.addActionListener(this);
         pythag.addActionListener(this);
@@ -186,9 +188,9 @@ public class Calculator extends JFrame implements ActionListener{
     {
         neg=new JButton("�");
         MP=new JButton("M+");
-        MC=new JButton("MC");
-        MM=new JButton("M-");
-        MR=new JButton("MR");
+        clearMemory=new JButton("MC");
+        subtractMemory=new JButton("M-");
+        recallMemory=new JButton("MR");
         one=new JButton("1");
         two=new JButton("2");
         three=new JButton("3");
@@ -207,7 +209,7 @@ public class Calculator extends JFrame implements ActionListener{
         pi=new JButton("\u03C0");
         sqrt=new JButton("\u221Ax");
         square=new JButton("x\u00B2");
-        C=new JButton("C");
+        clearNum=new JButton("C");
         //      parenOpen=new JButton("(");
         //      parenClose=new JButton(")");
         percent=new JButton("%");
@@ -220,18 +222,18 @@ public class Calculator extends JFrame implements ActionListener{
         csc=new JButton("csc(x)");
         sec=new JButton("sec(x)");
         cot=new JButton("cot(x)");
-        isin=new JButton("sin\u207B\u00B9(x)");
-        icos=new JButton("cos\u207B\u00B9(x)");
-        itan=new JButton("tan\u207B\u00B9(x)");
-        icsc=new JButton("csc\u207B\u00B9(x)");
-        isec=new JButton("sec\u207B\u00B9(x)");
-        icot=new JButton("cot\u207B\u00B9(x)");
+        iSin=new JButton("sin\u207B\u00B9(x)");
+        iCos=new JButton("cos\u207B\u00B9(x)");
+        iTan=new JButton("tan\u207B\u00B9(x)");
+        iCsc=new JButton("csc\u207B\u00B9(x)");
+        iSec=new JButton("sec\u207B\u00B9(x)");
+        iCot=new JButton("cot\u207B\u00B9(x)");
         mod =new JButton("Mod");
         inverse=new JButton("x\u207B\u00B9");
         en=new JButton("e");
         ep=new JButton("e\u207F");
         rand=new JButton("Rand");
-        randint = new JButton("RandInt");
+        randInt = new JButton("RandInt");
         fToC = new JButton("\u00B0F to \u00B0C");
         cToF = new JButton("\u00B0C to \u00b0F");
         pythag = new JButton("a\u00B2 + b\u00B2");
@@ -261,11 +263,11 @@ public class Calculator extends JFrame implements ActionListener{
         factorial.setBackground(foreground);
         power.setBackground(foreground);
         decimal.setBackground(foreground);
-        C.setBackground(foreground);
+        clearNum.setBackground(foreground);
         MP.setBackground(foreground);
-        MC.setBackground(foreground);
-        MR.setBackground(foreground);
-        MM.setBackground(foreground);
+        clearMemory.setBackground(foreground);
+        recallMemory.setBackground(foreground);
+        subtractMemory.setBackground(foreground);
         neg.setBackground(foreground);
         panel.setBackground(background);
         panel2.setBackground(background);
@@ -277,23 +279,23 @@ public class Calculator extends JFrame implements ActionListener{
         gridBag.fill = GridBagConstraints.BOTH;
         gridBag.gridx = 0;
         gridBag.gridy = 0;
-        panel2.add(TextAreaNumber, gridBag);
+        panel2.add(textAreaNumber, gridBag);
         //Adds the buttons in a layout to the panel for the controls 
         gridBag.gridwidth = 1;
         gridBag.gridy=0;
         gridBag.gridx=0;
-        panel.add(MC);
+        panel.add(clearMemory);
         gridBag.gridy=0;
         gridBag.gridx=1;
         panel.add(MP);
         gridBag.gridx=2;
-        panel.add(MM);
+        panel.add(subtractMemory);
         gridBag.gridx=3;
-        panel.add(MR);
+        panel.add(recallMemory);
 
         gridBag.gridy=1;
         gridBag.gridx=0;
-        panel.add(C,gridBag);
+        panel.add(clearNum,gridBag);
         gridBag.gridx=1;
         gridBag.gridy=1;
         panel.add(neg,gridBag);
@@ -386,19 +388,19 @@ public class Calculator extends JFrame implements ActionListener{
         panel.add(cot,gridBag);
         gridBag.gridy=10;
         gridBag.gridx=0;
-        panel.add(isin,gridBag);
+        panel.add(iSin,gridBag);
         gridBag.gridx=2;
-        panel.add(icsc,gridBag);
+        panel.add(iCsc,gridBag);
         gridBag.gridy=11;
         gridBag.gridx=0;
-        panel.add(icos,gridBag);
+        panel.add(iCos,gridBag);
         gridBag.gridx=2;
-        panel.add(isec,gridBag);
+        panel.add(iSec,gridBag);
         gridBag.gridy=12;
         gridBag.gridx=0;
-        panel.add(itan,gridBag);
+        panel.add(iTan,gridBag);
         gridBag.gridx=2;
-        panel.add(icot,gridBag);
+        panel.add(iCot,gridBag);
         gridBag.gridwidth=1;
         gridBag.gridx=0;
         gridBag.gridy=13;
@@ -416,7 +418,7 @@ public class Calculator extends JFrame implements ActionListener{
         panel.add(rand,gridBag);
         gridBag.gridx=2;
         gridBag.gridwidth=2;
-        panel.add(randint,gridBag);
+        panel.add(randInt,gridBag);
         gridBag.gridy = 15;
         gridBag.gridx=0;
         panel.add(cToF,gridBag);
@@ -429,20 +431,20 @@ public class Calculator extends JFrame implements ActionListener{
 
     public void setText(String b){
 
-        TextAreaNumber.setText(b);
-        TextAreaNumber.update(TextAreaNumber.getGraphics());
+        textAreaNumber.setText(b);
+        textAreaNumber.update(textAreaNumber.getGraphics());
     }
 
     public void setText(int b){
 
-        TextAreaNumber.setText(Integer.toString(b));
-        TextAreaNumber.update(TextAreaNumber.getGraphics());
+        textAreaNumber.setText(Integer.toString(b));
+        textAreaNumber.update(textAreaNumber.getGraphics());
     }
 
     @Override
     //  Determines what button is pushed
     public void actionPerformed(ActionEvent e){
-        if (TextAreaNumber.getText().contains("i")){
+        if (textAreaNumber.getText().contains("i")){
             clearText();
         }
 
@@ -477,58 +479,58 @@ public class Calculator extends JFrame implements ActionListener{
             append(0);
         }
         else if (e.getSource()==plus){
-            x=getNum();
+            myNum1=getNum();
 
             func="plus";
         }
         else if (e.getSource()==minus){
-            x=getNum();
+            myNum1=getNum();
             func="minus";
         }
         else if (e.getSource()==times){
-            x=getNum();
+            myNum1=getNum();
             func="times";
         }
         else if (e.getSource()==divide){
-            x=getNum(); 
+            myNum1=getNum(); 
             func="divide";
         }
         else if (e.getSource()==equals){
-            y=getNum();
-            setText(Functions.solve(func,x,y));
-            Functions.print(Functions.solve(func,x,y));
+            myNum2=getNum();
+            setText(Functions.solve(func,myNum1,myNum2));
+            Functions.print(Functions.solve(func,myNum1,myNum2));
             clear=true;
         }
         else if (e.getSource()==pi){
-            x=getNum();
-            if (x==0){
+            myNum1=getNum();
+            if (myNum1==0){
                 setText(Math.PI);
             }
             else {
-                setText(Functions.solve("times",Math.PI,x));
+                setText(Functions.solve("times",Math.PI,myNum1));
             }
         }
         else if (e.getSource()==sqrt){
             func="sqrt";
-            x=getNum();
-            if (x < 0){
-                setText(("i" + String.valueOf(Functions.solve(func,-x,x))));
+            myNum1=getNum();
+            if (myNum1 < 0){
+                setText(("i" + String.valueOf(Functions.solve(func,-myNum1,myNum1))));
                 //Functions.print("i" + String.valueOf(Functions.solve(func,-x,x)));
-                TextAreaNumber.update(TextAreaNumber.getGraphics());
+                textAreaNumber.update(textAreaNumber.getGraphics());
             }
             else {
-                setText(Functions.solve(func,x,x));
+                setText(Functions.solve(func,myNum1,myNum1));
                 //Functions.print(Functions.solve(func,x,x));
-                TextAreaNumber.update(TextAreaNumber.getGraphics());
+                textAreaNumber.update(textAreaNumber.getGraphics());
             }
 
         }
         else if (e.getSource()==square){
             func="times";
-            x=getNum();
-            z=Functions.solve(func,x,x);
+            myNum1=getNum();
+            myAnswer=Functions.solve(func,myNum1,myNum1);
             //             Functions.print(z);
-            setText(z);
+            setText(myAnswer);
         }
         //      else if (e.getSource()==parenOpen){
         //          TextAreaNumber.append("(");
@@ -540,39 +542,39 @@ public class Calculator extends JFrame implements ActionListener{
             setText(getNum()/100);
         }
         else if (e.getSource()==factorial){
-            x=getNum();
+            myNum1=getNum();
             func="fact";
-            z=Functions.solve(func,x,x);
-            setText(z);
+            myAnswer=Functions.solve(func,myNum1,myNum1);
+            setText(myAnswer);
         }
         else if (e.getSource()==power){
             func="pow";
-            x=getNum();
+            myNum1=getNum();
         }
         else if (e.getSource()==decimal){
-            TextAreaNumber.append(".");
+            textAreaNumber.append(".");
         }
-        else if (e.getSource()==C){
+        else if (e.getSource()==clearNum){
             clearText();
         }
         else if (e.getSource()==MP){
-            M=M+getNum();
+            myNumMemory=myNumMemory+getNum();
         }
-        else if (e.getSource()==MM){
-            M=M-getNum();
+        else if (e.getSource()==subtractMemory){
+            myNumMemory=myNumMemory-getNum();
         }
-        else if (e.getSource()==MR){
-            setText(M);
+        else if (e.getSource()==recallMemory){
+            setText(myNumMemory);
         }
-        else if (e.getSource()==MC){
-            M=0;
+        else if (e.getSource()==clearMemory){
+            myNumMemory=0;
         }
         else if (e.getSource()==neg){
-            if(Double.parseDouble(TextAreaNumber.getText())%1==0){
-                setText(Integer.parseInt(TextAreaNumber.getText())*(0-1));
+            if(Double.parseDouble(textAreaNumber.getText())%1==0){
+                setText(Integer.parseInt(textAreaNumber.getText())*(0-1));
             }
             else{
-                setText(Double.parseDouble(TextAreaNumber.getText())*(0-1));
+                setText(Double.parseDouble(textAreaNumber.getText())*(0-1));
             }
         }
         else if (e.getSource()==sin){
@@ -594,44 +596,44 @@ public class Calculator extends JFrame implements ActionListener{
             setText(Functions.solve("sec", getNum(), 0));
         }
         else if (e.getSource()==mod){
-            x=getNum();
+            myNum1=getNum();
             func="mod";
         }
         else if (e.getSource()==inverse){
             setText(Functions.solve("pow", getNum(), -1));
         }
         else if (e.getSource()==en){
-            x=getNum();
-            if (x==0){
+            myNum1=getNum();
+            if (myNum1==0){
                 setText(Math.E);
             }
             else {
-                setText(Functions.solve("times",Math.E,x));
+                setText(Functions.solve("times",Math.E,myNum1));
             }
         }
         else if (e.getSource()==ep){
-            x=getNum();
-            setText(Functions.solve("pow", Math.E, x));
+            myNum1=getNum();
+            setText(Functions.solve("pow", Math.E, myNum1));
         }
         else if (e.getSource()==rand){
             setText(Functions.solve("randint", 0, 0));
         }
-        else if (e.getSource()==randint){
+        else if (e.getSource()==randInt){
             setText(Functions.solve("randint", 0, 0));
         }
         else if (e.getSource()==cToF){
-            x=getNum();
+            myNum1=getNum();
             func="cToF";
-            setText(Functions.solve(func, x , 0));
+            setText(Functions.solve(func, myNum1 , 0));
         }
         else if (e.getSource()==fToC){
-            x=getNum();
+            myNum1=getNum();
             func="fToC";
-            setText(Functions.solve(func, x , 0));
+            setText(Functions.solve(func, myNum1 , 0));
         }
         else if (e.getSource() == pythag)
         {
-            x=getNum();
+            myNum1=getNum();
             func="pythag";
         }
     }
